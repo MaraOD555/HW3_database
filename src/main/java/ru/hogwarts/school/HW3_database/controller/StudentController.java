@@ -16,9 +16,9 @@ public class StudentController {
     public StudentController (StudentService studentService){
         this.studentService = studentService;
     }
-    @GetMapping("{Id}") // чтобы в браузере получать информацию по заданным Id
-    public ResponseEntity<Student> findStudentInfo (@PathVariable long Id){ // аннотация для ввода Id
-        Student student = studentService.findStudent(Id); // переменная
+    @GetMapping("{id}") // чтобы в браузере получать информацию по заданным Id
+    public ResponseEntity<Student> findStudentInfo (@PathVariable long id){ // аннотация для ввода Id
+        Student student = studentService.findStudent(id); // переменная
         if(student == null){
             return ResponseEntity.notFound().build(); // если нет такого Id, то исключение, в данном случает ответ объекта (Response Entity - nor found)
         }
@@ -36,13 +36,10 @@ public class StudentController {
         }
         return ResponseEntity.ok(studentForEdit);// если найден. что все ок. возвращаем студента
     }
-    @DeleteMapping("{Id}") // аннотация для delete
-    public ResponseEntity<Student> deleteStudentInfo (@PathVariable long Id){ // аннотация для ввода Id
-        Student deletedStudent = studentService.deleteStudents(Id); // переменная
-        if(deletedStudent == null){
-            return ResponseEntity.notFound().build(); // если нет такого Id, то исключение, в данном случает ответ объекта (Response Entity - nor found)
-        }
-        return ResponseEntity.ok(deletedStudent);// если найден. что все ок. возвращаем данные удаленного студента
+    @DeleteMapping("{id}") // аннотация для delete
+    public ResponseEntity<Student> deleteStudentInfo (@PathVariable long id){
+        studentService.deleteStudents(id);
+        return ResponseEntity.ok().build();
     }
     @GetMapping
     public ResponseEntity<Collection<Student>> findStudentByAge (@RequestParam(required = false) int age){// задаем возраст и ищем студентов
